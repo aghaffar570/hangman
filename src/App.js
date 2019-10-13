@@ -24,38 +24,39 @@ const HiddenLetter = styled.span`
   font-weight: 400;
   font-family: sans-serif;
   text-transform: uppercase;
-  color: black;
-`;
-
+  color: ${props => props.exposed ? 'orangered' : 'black'};
+`
 
 const App = () => {
   const [secretWord, setSecretWord] = useState('linkedin');
   const [guessCount, setGuessCount] = useState(6);
+  const [endGame, setEndGame] = useState(false);
   const [guesses, setGuesses] = useState([]);
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [correctGuesses, setCorrectGuesses] = useState([]);
 
   useEffect(() => {
     // make api call to http://app.linkedin-reach.io/words
-  })
+  });
 
 
   const hiddenWord = secretWord.split('').map((char, idx) =>
-      correctGuesses.includes(char)
-      ? <HiddenLetter key={idx}>{char}</HiddenLetter>
-      : <HiddenLetter key={idx}>_</HiddenLetter>
-  )
+    correctGuesses.includes(char)
+    ? <HiddenLetter key={idx}>{char}</HiddenLetter>
+    : endGame ? <HiddenLetter exposed key={idx}>{char}</HiddenLetter>
+    :<HiddenLetter key={idx}>_</HiddenLetter>
+  );
 
   const updateGuesses = (char) => {
 
     if(secretWord.includes(char)) {
-      setCorrectGuesses([...correctGuesses, char])
+      setCorrectGuesses([...correctGuesses, char]);
     } else {
-      setWrongGuesses([...wrongGuesses, char])
-      setGuessCount(guessCount - 1)
+      setWrongGuesses([...wrongGuesses, char]);
+      guessCount === 1 && setEndGame(true) || setGuessCount(guessCount - 1);
     }
 
-    setGuesses([...guesses, char])
+    setGuesses([...guesses, char]);
   }
 
   console.log({guessCount, correctGuesses, wrongGuesses, guesses})
@@ -66,6 +67,7 @@ const App = () => {
         guesses={guesses}
         wrongGuesses={wrongGuesses}
         updateGuesses={updateGuesses}
+        endGame={endGame}
       />
       <HiddenWord>
         { hiddenWord }

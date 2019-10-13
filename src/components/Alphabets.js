@@ -8,6 +8,7 @@ const Letter = styled.span`
   font-family: 'Mansalva', cursive;
   text-transform: uppercase;
   cursor: pointer;
+  pointer-events: ${props => props.endGame ? 'none' : 'auto'};
 
   &:hover {
     color: lightcoral;
@@ -33,13 +34,14 @@ const LetterBank = styled.div`
 
 const alphabets = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
-const Alphabets = ({ guesses, wrongGuesses, updateGuesses }) => {
+const Alphabets = ({ guesses, wrongGuesses, updateGuesses, endGame }) => {
   return (
     <LetterBank>
       {
         alphabets.map((char, idx) =>
           <Letter
             key={idx}
+            endGame={endGame}
             disabled={guesses.includes(char)}
             wrongChar={wrongGuesses.includes(char)}
             onClick={() => updateGuesses(char)}
