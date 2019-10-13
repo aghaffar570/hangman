@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Alphabets from './components/Alphabets';
 import styled from 'styled-components';
 
 
@@ -8,38 +9,12 @@ const GameTitle = styled.h1`
   text-align: center;
 `
 
-const Letter = styled.span`
-  margin: 10px;
-  font-size: 24px;
-  font-weight: 500;
-  font-family: 'Mansalva', cursive;
-  text-transform: uppercase;
-  cursor: pointer;
-
-  &:hover {
-    color: lightcoral;
-  }
-
-  &[disabled] {
-    color: ${props => props.wrongChar ? 'red' : 'grey'};
-    opacity: ${props => props.wrongChar ? '0.2' : '0.4'};
-    pointer-events: none;
-    text-decoration: line-through;
-  }
-`
-
-const LetterBank = styled.div`
+const HiddenWord = styled.div`
   width: 60%;
   height: 50%;
   padding: 15px;
   margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
-  background-color: lavenderblush;
-`;
-
-const HiddenWord = styled(LetterBank)`
-  flex-wrap: nowrap;
 `
 
 const HiddenLetter = styled.span`
@@ -52,8 +27,6 @@ const HiddenLetter = styled.span`
   color: black;
 `;
 
-
-const alphabets = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 const App = () => {
   const [secretWord, setSecretWord] = useState('linkedin');
@@ -89,19 +62,11 @@ const App = () => {
   return (
     <div className='App'>
       <GameTitle>Hangman</GameTitle>
-      <LetterBank>
-        {
-          alphabets.map((char, idx) =>
-            <Letter
-              key={idx}
-              disabled={guesses.includes(char)}
-              wrongChar={wrongGuesses.includes(char)}
-              onClick={() => updateGuesses(char)}
-            >
-              {char}
-            </Letter>
-        )}
-      </LetterBank>
+      <Alphabets
+        guesses={guesses}
+        wrongGuesses={wrongGuesses}
+        updateGuesses={updateGuesses}
+      />
       <HiddenWord>
         { hiddenWord }
       </HiddenWord>
