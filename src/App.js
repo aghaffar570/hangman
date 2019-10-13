@@ -27,6 +27,19 @@ const HiddenLetter = styled.span`
   color: ${props => props.exposed ? 'orangered' : 'black'};
 `
 
+const RestartButton = styled.button`
+  padding: 15px;
+  font-size: 1.1rem;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  background-color: #f13b21;
+  color: papayawhip;
+  cursor: pointer;
+  border: none;
+  display: block;
+  margin: 20px auto;
+`
+
 const App = () => {
   const [secretWord, setSecretWord] = useState('linkedin');
   const [guessCount, setGuessCount] = useState(6);
@@ -39,6 +52,16 @@ const App = () => {
     // make api call to http://app.linkedin-reach.io/words
   });
 
+  const restartGame = () => {
+    setGuessCount(6);
+    setEndGame(false);
+    setWrongGuesses([]);
+    setCorrectGuesses([]);
+    setGuesses([]);
+
+    // make another api call to get new word
+    setSecretWord('reach')
+  }
 
   const hiddenWord = secretWord.split('').map((char, idx) =>
     correctGuesses.includes(char)
@@ -59,7 +82,7 @@ const App = () => {
     setGuesses([...guesses, char]);
   }
 
-  console.log({guessCount, correctGuesses, wrongGuesses, guesses})
+  console.log({secretWord, guessCount, correctGuesses, wrongGuesses, guesses, endGame})
   return (
     <div className='App'>
       <GameTitle>Hangman</GameTitle>
@@ -72,6 +95,7 @@ const App = () => {
       <HiddenWord>
         { hiddenWord }
       </HiddenWord>
+      { endGame ? <RestartButton onClick={restartGame}>restart</RestartButton> : null }
     </div>
   );
 }
