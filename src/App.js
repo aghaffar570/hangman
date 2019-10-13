@@ -40,6 +40,13 @@ const RestartButton = styled.button`
   margin: 20px auto;
 `
 
+const ImageChicks = styled.img`
+  transform: scaleX(-1);
+  display: block;
+  margin: 2.5rem auto;
+  padding: 0 60px;
+`
+
 const App = () => {
   const [secretWord, setSecretWord] = useState('linkedin');
   const [guessCount, setGuessCount] = useState(6);
@@ -49,8 +56,19 @@ const App = () => {
   const [correctGuesses, setCorrectGuesses] = useState([]);
 
   useEffect(() => {
-    // make api call to http://app.linkedin-reach.io/words
-  });
+    fetchWord()
+  }, []);
+
+  const fetchWord = () => {
+    fetch('/api/words')
+      .then(res => res.json())
+      .then(data => {
+        const { wordList, length } = JSON.parse(data);
+        const randomWord = wordList[Math.floor(Math.random() * length)];
+        setSecretWord(randomWord);
+      })
+      .catch(console.error)
+  }
 
   const restartGame = () => {
     setGuessCount(6);
@@ -59,8 +77,7 @@ const App = () => {
     setCorrectGuesses([]);
     setGuesses([]);
 
-    // make another api call to get new word
-    setSecretWord('reach')
+    fetchWord()
   }
 
   const hiddenWord = secretWord.split('').map((char, idx) =>
@@ -72,7 +89,7 @@ const App = () => {
 
   const updateGuesses = (char) => {
 
-    if(secretWord.includes(char)) {
+    if (secretWord.includes(char)) {
       setCorrectGuesses([...correctGuesses, char]);
     } else {
       setWrongGuesses([...wrongGuesses, char]);
@@ -96,6 +113,7 @@ const App = () => {
         { hiddenWord }
       </HiddenWord>
       { endGame ? <RestartButton onClick={restartGame}>restart</RestartButton> : null }
+      <ImageChicks src="https://www.animatedimages.org/data/media/532/animated-chicken-image-0079.gif" border="0" alt="free-animated-chicken-image-from-animatedimages.org"/>
     </div>
   );
 }
