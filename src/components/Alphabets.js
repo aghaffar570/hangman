@@ -34,7 +34,7 @@ const LetterBank = styled.div`
 
 const alphabets = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
-const Alphabets = ({ guesses, wrongGuesses, updateGuesses, endGame }) => {
+export default ({ guesses, wrongGuesses, updateGuesses, endGame }) => {
   return (
     <LetterBank>
       {
@@ -53,4 +53,3 @@ const Alphabets = ({ guesses, wrongGuesses, updateGuesses, endGame }) => {
   );
 }
 
-export default Alphabets;

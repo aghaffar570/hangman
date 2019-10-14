@@ -18,9 +18,7 @@ app.get('/api/words', (req, res) => {
 
     const wordList = body.split('\n');
     const length = wordList.length;
-    const data = JSON.stringify({ wordList, length });
-    console.log(length);
-    res.json(data);
+    res.json({ wordList, length });
   })
 });
 

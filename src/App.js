@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Alphabets from './components/Alphabets';
+import HiddenWord from './components/HiddenWord';
 import styled from 'styled-components';
 
 
@@ -7,24 +8,6 @@ const GameTitle = styled.h1`
   font-family: 'Mansalva', cursive;
   text-transform: uppercase;
   text-align: center;
-`
-
-const HiddenWord = styled.div`
-  width: 60%;
-  height: 50%;
-  padding: 15px;
-  margin: 0 auto;
-  display: flex;
-`
-
-const HiddenLetter = styled.span`
-  width: 100%;
-  margin: 20px;
-  font-size: 36px;
-  font-weight: 400;
-  font-family: sans-serif;
-  text-transform: uppercase;
-  color: ${props => props.exposed ? 'orangered' : 'black'};
 `
 
 const RestartButton = styled.button`
@@ -50,6 +33,7 @@ const ImageChicks = styled.img`
 const App = () => {
   const [secretWord, setSecretWord] = useState('linkedin');
   const [guessCount, setGuessCount] = useState(6);
+  const [winGame, setWinGame] = useState(new Set(secretWord.split('')));
   const [endGame, setEndGame] = useState(false);
   const [guesses, setGuesses] = useState([]);
   const [wrongGuesses, setWrongGuesses] = useState([]);
@@ -62,10 +46,10 @@ const App = () => {
   const fetchWord = () => {
     fetch('/api/words')
       .then(res => res.json())
-      .then(data => {
-        const { wordList, length } = JSON.parse(data);
+      .then(({ wordList, length }) => {
         const randomWord = wordList[Math.floor(Math.random() * length)];
         setSecretWord(randomWord);
+        setWinGame(new Set(randomWord.split('')));
       })
       .catch(console.error)
   }
@@ -80,17 +64,12 @@ const App = () => {
     fetchWord()
   }
 
-  const hiddenWord = secretWord.split('').map((char, idx) =>
-    correctGuesses.includes(char)
-    ? <HiddenLetter key={idx}>{char}</HiddenLetter>
-    : endGame ? <HiddenLetter exposed key={idx}>{char}</HiddenLetter>
-    :<HiddenLetter key={idx}>_</HiddenLetter>
-  );
-
   const updateGuesses = (char) => {
 
     if (secretWord.includes(char)) {
+      winGame.delete(char);
       setCorrectGuesses([...correctGuesses, char]);
+      if (winGame.size === 0) setEndGame(true);
     } else {
       setWrongGuesses([...wrongGuesses, char]);
       guessCount === 1 && setEndGame(true) || setGuessCount(guessCount - 1);
@@ -99,7 +78,7 @@ const App = () => {
     setGuesses([...guesses, char]);
   }
 
-  console.log({secretWord, guessCount, correctGuesses, wrongGuesses, guesses, endGame})
+  console.log({secretWord, guessCount, correctGuesses, wrongGuesses, guesses, winGame, endGame})
   return (
     <div className='App'>
       <GameTitle>Hangman</GameTitle>
@@ -108,11 +87,13 @@ const App = () => {
         wrongGuesses={wrongGuesses}
         updateGuesses={updateGuesses}
         endGame={endGame}
+        />
+      <HiddenWord
+        endGame={endGame}
+        secretWord={secretWord}
+        correctGuesses={correctGuesses}
       />
-      <HiddenWord>
-        { hiddenWord }
-      </HiddenWord>
-      { endGame ? <RestartButton onClick={restartGame}>restart</RestartButton> : null }
+      { endGame ? <RestartButton onClick={restartGame}>play again</RestartButton> : null }
       <ImageChicks src="https://www.animatedimages.org/data/media/532/animated-chicken-image-0079.gif" border="0" alt="free-animated-chicken-image-from-animatedimages.org"/>
     </div>
   );
