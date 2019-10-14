@@ -30,6 +30,14 @@ const ImageChicks = styled.img`
   padding: 0 60px;
 `
 
+const EndStatement = styled.p`
+  text-align: center;
+  font-size: 24px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-family: 'Mansalva', cursive;
+`
+
 const App = () => {
   const [secretWord, setSecretWord] = useState('linkedin');
   const [guessCount, setGuessCount] = useState(6);
@@ -93,6 +101,8 @@ const App = () => {
         secretWord={secretWord}
         correctGuesses={correctGuesses}
       />
+      { endGame && winGame.size === 0 && <EndStatement>Great Job!</EndStatement> }
+      { endGame && winGame.size !== 0 && <EndStatement>Sorry, try again!</EndStatement> }
       { endGame ? <RestartButton onClick={restartGame}>play again</RestartButton> : null }
       <ImageChicks src="https://www.animatedimages.org/data/media/532/animated-chicken-image-0079.gif" border="0" alt="free-animated-chicken-image-from-animatedimages.org"/>
     </div>
