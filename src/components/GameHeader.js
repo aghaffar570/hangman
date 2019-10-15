@@ -11,14 +11,6 @@ text-align: center;
 
 const ScoreBoard = styled(GameTitle)``
 
-const HelpButton = styled.div`
-  position: absolute;
-  top: 35px;
-  right: 45px;
-  z-index: 100;
-  cursor: pointer;
-`
-
 const Hearts = styled.span`
   color: red;
   padding-left: 6px;
@@ -30,7 +22,6 @@ export default ({ guessCount, userScore }) => {
 
   return (
     <React.Fragment>
-      <HelpButton title="options">&#9889;</HelpButton>
       <GameTitle>Hangman {lives}</GameTitle>
       <ScoreBoard>&#9968; Score: {userScore ? userScore : 0}</ScoreBoard>
     </React.Fragment>

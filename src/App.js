@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Alphabets from './components/Alphabets';
-import GameHeader from './components/GameHeader';
-import HiddenWord from './components/HiddenWord';
-
+import { Alphabets, GameHeader, HiddenWord, Options } from './components'
 
 const RestartButton = styled.button`
+  position: relative;
   padding: 15px;
   font-size: 1.1rem;
   font-family: sans-serif;
@@ -16,6 +14,7 @@ const RestartButton = styled.button`
   border: none;
   display: block;
   margin: 20px auto;
+  z-index: 5;
 `
 
 const ImageChicks = styled.img`
@@ -49,8 +48,8 @@ const App = () => {
     fetchWord()
   }, []);
 
-  const fetchWord = () => {
-    fetch('/api/words')
+  const fetchWord = (query='') => {
+    fetch(`/api/words?${query}`)
       .then(res => res.json())
       .then(({ wordList, length }) => {
         const randomWord = wordList[Math.floor(Math.random() * length)];
@@ -92,7 +91,7 @@ const App = () => {
 
   console.log({secretWord, guessCount, correctGuesses, wrongGuesses, guesses, winGame, endGame})
   return (
-    <div className='App'>
+    <div>
       <GameHeader
         guessCount={guessCount}
         userScore={userScore}
@@ -112,6 +111,7 @@ const App = () => {
       { endGame && winGame.size !== 0 && <EndStatement>Sorry, try again!</EndStatement> }
       { endGame ? <RestartButton onClick={restartGame}>play again</RestartButton> : null }
       <ImageChicks src="https://www.animatedimages.org/data/media/532/animated-chicken-image-0079.gif" border="0" alt="free-animated-chicken-image-from-animatedimages.org"/>
+      <Options fetchWord={fetchWord}/>
     </div>
   );
 }

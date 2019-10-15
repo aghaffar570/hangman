@@ -7,7 +7,10 @@ const app = express();
 app.use(cors());
 
 app.get('/api/words', (req, res) => {
-  const url = 'http://app.linkedin-reach.io/words'
+  const { difficulty } = req.query;
+  const query = difficulty ? `difficulty=${difficulty}` : '';
+  const url = `http://app.linkedin-reach.io/words?${query}`;
+  console.log('request to:', url)
   request({ url }, (err, resp, body) => {
     if (err || resp.statusCode !== 200) {
       return res.status(500).json({

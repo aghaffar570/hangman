@@ -23,6 +23,7 @@ const Letter = styled.span`
 `
 
 const LetterBank = styled.div`
+  position: relative;
   width: 60%;
   height: 50%;
   padding: 15px;
@@ -30,6 +31,7 @@ const LetterBank = styled.div`
   display: flex;
   flex-wrap: wrap;
   background-color: lavenderblush;
+  z-index: 5;
 `;
 
 const alphabets = 'abcdefghijklmnopqrstuvwxyz'.split('');

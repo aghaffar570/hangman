@@ -8,6 +8,7 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
+    "react-sidebar": "^3.0.2",
     "request": "^2.88.0",
     "styled-components": "^4.4.0"
   },
