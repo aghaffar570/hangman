@@ -5,10 +5,13 @@ import styled from 'styled-components';
 
 
 const GameTitle = styled.h1`
+  margin: 3rem 0;
   font-family: 'Mansalva', cursive;
   text-transform: uppercase;
   text-align: center;
 `
+
+const ScoreBoard = styled(GameTitle)``
 
 const RestartButton = styled.button`
   padding: 15px;
@@ -38,16 +41,23 @@ const EndStatement = styled.p`
   font-family: 'Mansalva', cursive;
 `
 
+const Hearts = styled.span`
+  color: red;
+  padding-left: 6px;
+`
+
 const App = () => {
   const [secretWord, setSecretWord] = useState('linkedin');
   const [guessCount, setGuessCount] = useState(6);
   const [winGame, setWinGame] = useState(new Set(secretWord.split('')));
   const [endGame, setEndGame] = useState(false);
   const [guesses, setGuesses] = useState([]);
+  const [userScore, setUserScore] = useState(0);
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [correctGuesses, setCorrectGuesses] = useState([]);
 
   useEffect(() => {
+    localStorage.setItem('score', `${0}`);
     fetchWord()
   }, []);
 
@@ -77,7 +87,12 @@ const App = () => {
     if (secretWord.includes(char)) {
       winGame.delete(char);
       setCorrectGuesses([...correctGuesses, char]);
-      if (winGame.size === 0) setEndGame(true);
+      if (winGame.size === 0) {
+        const score = JSON.parse(localStorage.getItem('score'))
+        localStorage.setItem('score', `${score + 1}`)
+        setUserScore(score + 1);
+        setEndGame(true);
+      }
     } else {
       setWrongGuesses([...wrongGuesses, char]);
       guessCount === 1 && setEndGame(true) || setGuessCount(guessCount - 1);
@@ -86,10 +101,16 @@ const App = () => {
     setGuesses([...guesses, char]);
   }
 
+
+  const lives = new Array(guessCount)
+    .fill(null, 0, guessCount).map((n, idx) => <Hearts key={idx}>&#10084;</Hearts>)
+
+
   console.log({secretWord, guessCount, correctGuesses, wrongGuesses, guesses, winGame, endGame})
   return (
     <div className='App'>
-      <GameTitle>Hangman</GameTitle>
+      <GameTitle>Hangman {lives}</GameTitle>
+      <ScoreBoard>Score: {userScore ? userScore : 0}</ScoreBoard>
       <Alphabets
         guesses={guesses}
         wrongGuesses={wrongGuesses}

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Letter = styled.span`
   margin: 10px;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 500;
   font-family: 'Mansalva', cursive;
   text-transform: uppercase;
@@ -16,7 +16,7 @@ const Letter = styled.span`
 
   &[disabled] {
     color: ${props => props.wrongChar ? 'red' : 'grey'};
-    opacity: ${props => props.wrongChar ? '0.2' : '0.4'};
+    opacity: ${props => props.wrongChar ? '0.3' : '0.4'};
     pointer-events: none;
     text-decoration: line-through;
   }

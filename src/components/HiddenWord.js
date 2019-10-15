@@ -2,16 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 const HiddenWord = styled.div`
-  width: 60%;
-  height: 50%;
-  padding: 15px;
-  margin: 0 auto;
-  display: flex;
+  padding: 5rem 1.5rem;
+  text-align: center;
 `
 
 const HiddenLetter = styled.span`
-  width: 100%;
-  margin: 20px;
+  margin: 0 25px;
+  box-sizing: border-box;
   font-size: 36px;
   font-weight: 400;
   font-family: sans-serif;
