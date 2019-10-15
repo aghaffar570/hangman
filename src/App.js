@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Alphabets from './components/Alphabets';
-import HiddenWord from './components/HiddenWord';
 import styled from 'styled-components';
+import Alphabets from './components/Alphabets';
+import GameHeader from './components/GameHeader';
+import HiddenWord from './components/HiddenWord';
 
-
-const GameTitle = styled.h1`
-  margin: 3rem 0;
-  font-family: 'Mansalva', cursive;
-  text-transform: uppercase;
-  text-align: center;
-`
-
-const ScoreBoard = styled(GameTitle)``
 
 const RestartButton = styled.button`
   padding: 15px;
@@ -41,10 +33,6 @@ const EndStatement = styled.p`
   font-family: 'Mansalva', cursive;
 `
 
-const Hearts = styled.span`
-  color: red;
-  padding-left: 6px;
-`
 
 const App = () => {
   const [secretWord, setSecretWord] = useState('linkedin');
@@ -102,15 +90,13 @@ const App = () => {
   }
 
 
-  const lives = new Array(guessCount)
-    .fill(null, 0, guessCount).map((n, idx) => <Hearts key={idx}>&#10084;</Hearts>)
-
-
   console.log({secretWord, guessCount, correctGuesses, wrongGuesses, guesses, winGame, endGame})
   return (
     <div className='App'>
-      <GameTitle>Hangman {lives}</GameTitle>
-      <ScoreBoard>Score: {userScore ? userScore : 0}</ScoreBoard>
+      <GameHeader
+        guessCount={guessCount}
+        userScore={userScore}
+      />
       <Alphabets
         guesses={guesses}
         wrongGuesses={wrongGuesses}
