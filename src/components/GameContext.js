@@ -21,7 +21,6 @@ const GameContextProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem('score', `${0}`);
-    console.log('useffect');
     fetchWord()
   }, []);
 
@@ -43,7 +42,7 @@ const GameContextProvider = ({ children }) => {
     setCorrectGuesses([]);
     setGuesses([]);
 
-    fetchWord()
+    fetchWord();
   }
 
   const updateGuesses = (char) => {

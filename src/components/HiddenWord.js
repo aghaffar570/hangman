@@ -18,7 +18,7 @@ const HiddenLetter = styled.span`
 `
 
 export default () => {
-  const { secretWord, endGame, correctGuesses } = useContext(GameContext)
+  const { secretWord, endGame, correctGuesses } = useContext(GameContext);
 
   const hiddenWord = secretWord.split('').map((char, idx) =>
     correctGuesses.includes(char)
@@ -31,5 +31,5 @@ export default () => {
     <HiddenWord>
       { hiddenWord }
     </HiddenWord>
-  )
+  );
 }

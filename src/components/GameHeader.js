@@ -18,12 +18,11 @@ const Hearts = styled.span`
 `
 
 export default () => {
-  const { secretWord, guessCount, userScore } = useContext(GameContext);
+  const { guessCount, userScore } = useContext(GameContext);
 
   const lives = new Array(guessCount)
       .fill(null, 0, guessCount).map((n, idx) => <Hearts key={idx}>&#10084;</Hearts>)
 
-  console.log('test >>', secretWord, guessCount, userScore)
   return (
     <React.Fragment>
       <GameTitle>Hangman {lives}</GameTitle>
