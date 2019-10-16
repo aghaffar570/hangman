@@ -107,10 +107,12 @@ const App = () => {
         secretWord={secretWord}
         correctGuesses={correctGuesses}
       />
+
+      <ImageChicks src="https://www.animatedimages.org/data/media/532/animated-chicken-image-0079.gif" border="0" alt="free-animated-chicken-image-from-animatedimages.org"/>
+
       { endGame && winGame.size === 0 && <EndStatement>Great Job!</EndStatement> }
       { endGame && winGame.size !== 0 && <EndStatement>Sorry, try again!</EndStatement> }
       { endGame ? <RestartButton onClick={restartGame}>play again</RestartButton> : null }
-      <ImageChicks src="https://www.animatedimages.org/data/media/532/animated-chicken-image-0079.gif" border="0" alt="free-animated-chicken-image-from-animatedimages.org"/>
       <Options fetchWord={fetchWord}/>
     </div>
   );

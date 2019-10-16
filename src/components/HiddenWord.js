@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const HiddenWord = styled.div`
-  padding: 5rem 1.5rem;
+  padding: 4rem 1.5rem 3rem;
   text-align: center;
 `
 

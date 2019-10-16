@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 
 const GameTitle = styled.h1`
-margin: 3rem 0;
-font-family: 'Mansalva', cursive;
-text-transform: uppercase;
-text-align: center;
+  margin: 2rem 0;
+  font-family: 'Mansalva', cursive;
+  text-transform: uppercase;
+  text-align: center;
 `
 
 const ScoreBoard = styled(GameTitle)``

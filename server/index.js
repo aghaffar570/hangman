@@ -1,5 +1,6 @@
 const express = require('express');
 const request = require('request');
+const chalk = require('chalk');
 const cors = require('cors');
 
 const app = express();
@@ -10,7 +11,7 @@ app.get('/api/words', (req, res) => {
   const { difficulty } = req.query;
   const query = difficulty ? `difficulty=${difficulty}` : '';
   const url = `http://app.linkedin-reach.io/words?${query}`;
-  console.log('request to:', url)
+  console.log(chalk.magenta('request to: ') +  chalk.underline.magenta(url))
   request({ url }, (err, resp, body) => {
     if (err || resp.statusCode !== 200) {
       return res.status(500).json({
@@ -26,4 +27,4 @@ app.get('/api/words', (req, res) => {
 });
 
 
-app.listen(3001, () => console.log('listening to proxy server on port 3001'));
+app.listen(3001, () => console.log(chalk.bgBlack.white('listening to proxy server on port 3001')));
