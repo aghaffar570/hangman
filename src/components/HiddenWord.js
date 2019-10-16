@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { GameContext } from './GameContext';
 
 const HiddenWord = styled.div`
   padding: 4rem 1.5rem 3rem;
@@ -16,7 +17,9 @@ const HiddenLetter = styled.span`
   color: ${props => props.exposed ? 'orangered' : 'black'};
 `
 
-export default ({ secretWord, endGame, correctGuesses }) => {
+export default () => {
+  const { secretWord, endGame, correctGuesses } = useContext(GameContext)
+
   const hiddenWord = secretWord.split('').map((char, idx) =>
     correctGuesses.includes(char)
     ? <HiddenLetter key={idx}>{char}</HiddenLetter>

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import { Alphabets, GameHeader, HiddenWord, Options } from './components'
+import { Alphabets, GameHeader, HiddenWord, Options, GameContextProvider } from './components'
+import { GameContext } from './components/GameContext';
 
 const RestartButton = styled.button`
   position: relative;
@@ -34,80 +35,12 @@ const EndStatement = styled.p`
 
 
 const App = () => {
-  const [secretWord, setSecretWord] = useState('linkedin');
-  const [guessCount, setGuessCount] = useState(6);
-  const [winGame, setWinGame] = useState(new Set(secretWord.split('')));
-  const [endGame, setEndGame] = useState(false);
-  const [guesses, setGuesses] = useState([]);
-  const [userScore, setUserScore] = useState(0);
-  const [wrongGuesses, setWrongGuesses] = useState([]);
-  const [correctGuesses, setCorrectGuesses] = useState([]);
-
-  useEffect(() => {
-    localStorage.setItem('score', `${0}`);
-    fetchWord()
-  }, []);
-
-  const fetchWord = (query='') => {
-    fetch(`/api/words?${query}`)
-      .then(res => res.json())
-      .then(({ wordList, length }) => {
-        const randomWord = wordList[Math.floor(Math.random() * length)];
-        setSecretWord(randomWord);
-        setWinGame(new Set(randomWord.split('')));
-      })
-      .catch(console.error)
-  }
-
-  const restartGame = () => {
-    setGuessCount(6);
-    setEndGame(false);
-    setWrongGuesses([]);
-    setCorrectGuesses([]);
-    setGuesses([]);
-
-    fetchWord()
-  }
-
-  const updateGuesses = (char) => {
-
-    if (secretWord.includes(char)) {
-      winGame.delete(char);
-      setCorrectGuesses([...correctGuesses, char]);
-      if (winGame.size === 0) {
-        const score = JSON.parse(localStorage.getItem('score'))
-        localStorage.setItem('score', `${score + 1}`)
-        setUserScore(score + 1);
-        setEndGame(true);
-      }
-    } else {
-      setWrongGuesses([...wrongGuesses, char]);
-      guessCount === 1 && setEndGame(true) || setGuessCount(guessCount - 1);
-    }
-
-    setGuesses([...guesses, char]);
-  }
-
-
-  console.log({secretWord, guessCount, correctGuesses, wrongGuesses, guesses, winGame, endGame})
+  const { endGame, winGame, restartGame, fetchWord } = useContext(GameContext)
   return (
     <div>
-      <GameHeader
-        guessCount={guessCount}
-        userScore={userScore}
-      />
-      <Alphabets
-        guesses={guesses}
-        wrongGuesses={wrongGuesses}
-        updateGuesses={updateGuesses}
-        endGame={endGame}
-        />
-      <HiddenWord
-        endGame={endGame}
-        secretWord={secretWord}
-        correctGuesses={correctGuesses}
-      />
-
+      <GameHeader />
+      <Alphabets />
+      <HiddenWord />
       <ImageChicks src="https://www.animatedimages.org/data/media/532/animated-chicken-image-0079.gif" border="0" alt="free-animated-chicken-image-from-animatedimages.org"/>
 
       { endGame && winGame.size === 0 && <EndStatement>Great Job!</EndStatement> }
@@ -118,4 +51,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default () => <GameContextProvider><App /></GameContextProvider>;

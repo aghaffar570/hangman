@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { GameContext } from './GameContext';
 
 const Letter = styled.span`
   margin: 10px;
@@ -36,7 +37,8 @@ const LetterBank = styled.div`
 
 const alphabets = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
-export default ({ guesses, wrongGuesses, updateGuesses, endGame }) => {
+export default () => {
+  const { guesses, wrongGuesses, updateGuesses, endGame } = useContext(GameContext)
   return (
     <LetterBank>
       {

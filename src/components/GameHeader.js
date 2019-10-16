@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { GameContext } from './GameContext';
 
 
 const GameTitle = styled.h1`
@@ -16,10 +17,13 @@ const Hearts = styled.span`
   padding-left: 6px;
 `
 
-export default ({ guessCount, userScore }) => {
+export default () => {
+  const { secretWord, guessCount, userScore } = useContext(GameContext);
+
   const lives = new Array(guessCount)
       .fill(null, 0, guessCount).map((n, idx) => <Hearts key={idx}>&#10084;</Hearts>)
 
+  console.log('test >>', secretWord, guessCount, userScore)
   return (
     <React.Fragment>
       <GameTitle>Hangman {lives}</GameTitle>
