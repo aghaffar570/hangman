@@ -8,11 +8,11 @@ not already lost the game per the conditions above
 
 
 ## Local Setup
-run the client and server dev env in parallel
+run the dev env for both the client and server in parallel
 ```
-npm run dev
+$ npm run dev
 ```
 
 ## Features
 - configure the word's "difficulty level" based on the user's preference
-- track the user's score per browser session
+- track the user's score for each browser session
