@@ -7,3 +7,12 @@
 not already lost the game per the conditions above
 
 
+## Local Setup
+run the client and server dev env in parallel
+```
+npm run dev
+```
+
+## Features
+- configure the word's "difficulty level" based on the user's preference
+- track the user's score per browser session
